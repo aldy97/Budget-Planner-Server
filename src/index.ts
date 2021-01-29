@@ -1,8 +1,10 @@
+// @ts-ignore
 import express from 'express';
 import bodyParser from 'body-parser';
 import router from './router/index';
 import cors from 'cors';
 import * as constants from './util/constants';
+require('dotenv').config();
 
 import db from './db.config';
 
@@ -22,6 +24,6 @@ db.connect();
 
 app.use('/', router);
 
-app.listen(constants.DEFAULT_PORT, () => {
-  console.log(`server is running on ${constants.DEFAULT_PORT}`);
+app.listen(process.env.PORT || constants.DEFAULT_PORT, () => {
+  console.log(`server is running on ${process.env.PORT || constants.DEFAULT_PORT}`);
 });
