@@ -1,11 +1,19 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import router from './router/index';
+import cors from 'cors';
 import * as constants from './util/constants';
 
 import db from './db.config';
 
 const app = express();
+
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:3000'],
+  })
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

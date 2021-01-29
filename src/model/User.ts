@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import { RecordDocument } from './Record';
 import db from '../db.config';
 import validator from 'validator';
+import moment from 'moment';
 
 const instance = db.instance;
 
@@ -9,16 +11,18 @@ export interface IUser {
   bio?: string;
   email: string;
   password: string;
-  confirmPassword?: string;
-  createdOn?: Date;
-  updatedOn?: Date;
+  records?: Array<RecordDocument['_id']> | RecordDocument[];
+  budget?: number;
+  threshold?: number;
+  createdOn?: string;
+  updatedOn?: string;
 }
 
 export type UserDocument = mongoose.Document & IUser;
 
 const userSchema = new instance.Schema({
   name: { type: String, required: [true, 'User must have a name. '] },
-  bio: { type: String, default: '' },
+  bio: { type: String, default: 'Empty bio' },
   email: {
     type: String,
     unique: true,
@@ -30,8 +34,11 @@ const userSchema = new instance.Schema({
     required: [true, 'User must have a password'],
     select: false,
   },
-  createdOn: { type: Date, default: Date.now },
-  updatedOn: { type: Date, default: Date.now },
+  records: [{ type: instance.Schema.Types.ObjectId, ref: 'Record' }],
+  budget: { type: Number, default: 0 },
+  threshold: { type: Number, default: 0 },
+  createdOn: { type: Date, default: moment().format('LLL') },
+  updatedOn: { type: Date, default: moment().format('LLL') },
 });
 
 export const User = instance.model<UserDocument>('User', userSchema);

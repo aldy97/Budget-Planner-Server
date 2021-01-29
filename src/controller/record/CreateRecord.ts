@@ -1,24 +1,56 @@
-import { Response } from 'express';
-import { ObjectId } from 'mongodb';
+import { Request, Response } from 'express';
 import { MESSAGES } from '../../util/constants';
 import { Record, IRecord } from '../../model/Record';
-import { ServerError } from '../../util/utils';
-import { AugmentedRequest } from 'global';
+import { User } from '../../model/User';
 
-const createRecord = async (req: AugmentedRequest, res: Response) => {
-  const title: string = req.body.title ? req.body.title : 'No title';
-  const user: ObjectId = req.body.user;
+export default async (req: Request, res: Response): Promise<void> => {
+  const title: string = req.body.title;
+  const userID: string = req.body.userID;
   const type: string = req.body.type;
   const category: string = req.body.category;
   const amount: number = req.body.amount;
-  const description: string = req.body.description
-    ? req.body.description
-    : 'No description';
+  const description: string = req.body.description;
   const recordDate: string = req.body.recordDate;
+
+  if (!userID) {
+    res.status(400).send({ message: MESSAGES.EMPTY_USER_ID });
+    return;
+  }
+
+  let userExists: boolean;
+  try {
+    userExists = await User.exists({ _id: userID });
+  } catch (e) {
+    res.status(404).send({ message: MESSAGES.USER_ID_NOT_FOUND });
+  }
+  if (!userExists) {
+    res.status(404).send({ message: MESSAGES.USER_ID_NOT_FOUND });
+    return;
+  }
+
+  if (!type) {
+    res.status(400).send({ message: MESSAGES.EMPTY_TYPE });
+    return;
+  }
+
+  if (!category) {
+    res.status(400).send({ message: MESSAGES.EMPTY_CAT });
+    return;
+  }
+
+  if (!amount) {
+    res.status(400).send({ message: MESSAGES.EMPTY_AMOUNT });
+    return;
+  }
+
+  if (!recordDate) {
+    res.status(400).send({ message: MESSAGES.EMPTY_RECORD_DATE });
+    return;
+  }
 
   const recordInfo: IRecord = {
     title,
-    user,
+    user: userID,
     type,
     category,
     amount,
@@ -26,16 +58,7 @@ const createRecord = async (req: AugmentedRequest, res: Response) => {
     recordDate,
   };
 
-  try {
-    await new Record(recordInfo).save();
-    res.send({ message: MESSAGES.ADD_RECORD_SUCC, status: true });
-  } catch (e) {
-    res.send({ message: MESSAGES.UNEXPECTED_ERROR, status: false });
-    throw new ServerError({
-      message: e,
-      statusCode: 400,
-    });
-  }
+  const newRecord = await new Record(recordInfo).save();
+  await User.updateOne({ _id: userID }, { $push: { records: newRecord._id } });
+  res.status(201).send({ message: MESSAGES.ADD_RECORD_SUCC });
 };
-
-export default createRecord;

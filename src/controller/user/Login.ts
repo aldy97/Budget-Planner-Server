@@ -2,14 +2,17 @@ import { Request, Response } from 'express';
 import { MESSAGES } from '../../util/constants';
 import { UserDocument, User } from '../../model/User';
 
-const checkLogin = async (request: Request, response: Response) => {
+export default async (request: Request, response: Response) => {
   const { email, password } = request.body;
+
   if (!email) {
-    response.json({ login: false, message: MESSAGES.EMPTY_EMAIL });
+    response.status(400).send({ message: MESSAGES.EMPTY_EMAIL });
+    return;
   }
 
   if (!password) {
-    response.json({ login: false, message: MESSAGES.EMPTY_PASSWORD });
+    response.status(400).send({ message: MESSAGES.EMPTY_PASSWORD });
+    return;
   }
 
   const user: UserDocument | null = await User.findOne({
@@ -18,10 +21,11 @@ const checkLogin = async (request: Request, response: Response) => {
   });
 
   if (!user) {
-    response.json({ login: false, message: MESSAGES.WRONG_CREDENTIALS });
+    response.status(404).send({ message: MESSAGES.WRONG_CREDENTIALS });
+    return;
   } else {
-    response.json({ login: true, uid: user._id, name: user.name });
+    response.status(201).send({
+      user,
+    });
   }
 };
-
-export default checkLogin;

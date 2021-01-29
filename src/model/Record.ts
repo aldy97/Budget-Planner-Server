@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
+import { UserDocument } from './User';
 import db from '../db.config';
 import moment from 'moment';
-import { UserDocument } from './User';
 
 const instance = db.instance;
 
@@ -35,8 +35,8 @@ const recordSchema = new instance.Schema({
     type: String,
     required: [true, 'A record must have a date on which it happens'],
   },
-  createdOn: { type: Date, default: moment().format('YYYY-MM-DD') },
-  updatedOn: { type: Date, default: moment().format('YYYY-MM-DD') },
+  createdOn: { type: Date, default: moment().format('LLL') },
+  updatedOn: { type: Date, default: moment().format('LLL') },
 });
 
 export const Record = instance.model<RecordDocument>('Record', recordSchema);

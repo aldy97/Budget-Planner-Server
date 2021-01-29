@@ -1,48 +1,39 @@
 import { Request, Response } from 'express';
 import { MESSAGES } from '../../util/constants';
-import { Record, RecordDocument } from '../../model/Record';
-import { ServerError } from '../../util/utils';
+import { Record } from '../../model/Record';
+import moment from 'moment';
 
 const updateRecord = async (req: Request, res: Response) => {
   const { _id, updatedFields } = req.body;
 
   if (!_id) {
-    res.send({ status: false, message: MESSAGES.UNEXPECTED_ERROR });
-    throw new ServerError({
-      statusCode: 400,
-      message: MESSAGES.UNEXPECTED_ERROR,
-    });
+    res.status(400).send({ message: MESSAGES.RECORD_ID_NOT_PROVIDED });
+    return;
   }
 
   let recordExist: boolean;
   try {
     recordExist = await Record.exists({ _id });
   } catch (e) {
-    res.send({ status: false, message: MESSAGES.UNEXPECTED_ERROR });
-    throw new ServerError({
-      statusCode: 400,
-      message: MESSAGES.UNEXPECTED_ERROR,
-    });
+    res.status(404).send({ message: MESSAGES.RECORD_NOT_FOUND });
+    return;
   }
 
   if (!recordExist) {
-    res.send({ status: false, message: MESSAGES.RECORD_NOT_FOUND });
-    throw new ServerError({
-      statusCode: 400,
-      message: MESSAGES.RECORD_NOT_FOUND,
-    });
+    res.status(404).send({ message: MESSAGES.RECORD_NOT_FOUND });
+    return;
   }
 
-  const updatedRecord: RecordDocument = await Record.findOneAndUpdate(
+  await Record.findOneAndUpdate(
     { _id },
-    updatedFields,
+    { ...updatedFields, updatedOn: moment().format('LLL') },
     {
       new: true,
       runValidators: true,
     }
   );
 
-  res.send({ status: true, updatedRecord, message: MESSAGES.UPDATE_RECORD_SUCC });
+  res.status(200).send({ message: MESSAGES.UPDATE_RECORD_SUCC });
 };
 
 export default updateRecord;
