@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 export const MESSAGES = {
   USER_NOT_EXIST: 'This user does not exist',
   RECORD_NOT_FOUND: 'Record is not found',
@@ -35,5 +37,6 @@ export const MESSAGES = {
   NO_RECODS_FOUND: 'No matching records.',
 };
 
+export const PRODUCTION_DB = `mongodb+srv://fengxiong:${process.env.DB_PASSWORD}@cluster0.wcmco.mongodb.net/test?retryWrites=true&w=majority`;
 export const MONGODB = 'mongodb://localhost:27017/db';
 export const DEFAULT_PORT = 7001;

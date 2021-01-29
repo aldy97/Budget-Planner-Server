@@ -12,7 +12,8 @@ mongoose.Promise = global.Promise;
 
 const connect = (): Mongoose => {
   // connect to db
-  mongoose.connect(CONFIG.MONGODB, {
+  console.error(CONFIG.PRODUCTION_DB);
+  mongoose.connect(CONFIG.PRODUCTION_DB, {
     useCreateIndex: true,
     useNewUrlParser: true,
     promiseLibrary: global.Promise,
