@@ -1,0 +1,1 @@
+web: echo "start" && npm run start-prod
