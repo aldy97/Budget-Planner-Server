@@ -11,6 +11,7 @@ require('dotenv').config();
 import db from './db.config';
 
 const app = express();
+const port = process.env.PORT || constants.DEFAULT_PORT;
 
 app.use(
   cors({
@@ -26,6 +27,6 @@ db.connect();
 
 app.use('/', router);
 
-app.listen(process.env.PORT || constants.DEFAULT_PORT, () => {
-  console.log(`server is running on ${process.env.PORT || constants.DEFAULT_PORT}`);
+app.listen(port, () => {
+  console.log(`server is running on ${port}`);
 });

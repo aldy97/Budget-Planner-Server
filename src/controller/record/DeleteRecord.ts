@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { MESSAGES } from '../../util/constants';
 import { Record } from '../../model/Record';
+import { User } from '../../model/User';
 
 export default async (req: Request, res: Response) => {
   const recordID = req.body.recordID;
@@ -22,6 +23,9 @@ export default async (req: Request, res: Response) => {
     return;
   }
 
+  const record = await Record.findOne({ _id: recordID });
   await Record.deleteOne({ _id: recordID });
+  await User.updateOne({ _id: record.user }, { $pull: { records: recordID } });
+
   res.status(202).send({ message: MESSAGES.DEL_RECORD_SUCC });
 };
