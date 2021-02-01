@@ -60,5 +60,8 @@ export default async (req: Request, res: Response): Promise<void> => {
 
   const newRecord = await new Record(recordInfo).save();
   await User.updateOne({ _id: userID }, { $push: { records: newRecord._id } });
-  res.status(201).send({ message: MESSAGES.ADD_RECORD_SUCC });
+
+  const user = await User.findOne({ _id: userID }).populate('records');
+
+  res.status(201).send({ records: user.records });
 };
