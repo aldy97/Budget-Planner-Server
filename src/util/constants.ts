@@ -2,6 +2,7 @@ require('dotenv').config();
 
 export const MESSAGES = {
   USER_NOT_EXIST: 'This user does not exist',
+  USER_ALREADY_EXIST: 'This email has been used',
   RECORD_NOT_FOUND: 'Record is not found',
   RECORD_ID_NOT_PROVIDED: 'Record ID is not provided',
   DEL_RECORD_SUCC: 'Record is deleted successfully!',
@@ -23,7 +24,6 @@ export const MESSAGES = {
   EMPTY_AMOUNT: 'Record amount is not provided',
   EMPTY_RECORD_DATE: 'Record date is not provided',
   INVALID_EMAIL: 'Email has invalid format',
-  EMAIL_REGISTER: 'This email has been registered',
   NO_USER_FOR_THIS_TOKEN: 'The user corresponding to this token no longer exists.',
   NOT_LOGGED_IN: 'You are not logged in. Please log in to complete this action.',
   PASSWORD_TOO_SHORT: 'Password must be 7 characters or longer.',

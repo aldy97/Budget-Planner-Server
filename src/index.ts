@@ -1,14 +1,10 @@
-// @ts-ignore
 import express from 'express';
-// @ts-ignore
 import bodyParser from 'body-parser';
 import router from './router/index';
-// @ts-ignore
 import cors from 'cors';
 import * as constants from './util/constants';
-require('dotenv').config();
-
 import db from './db.config';
+require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || constants.DEFAULT_PORT;
