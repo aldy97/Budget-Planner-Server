@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { MESSAGES } from '../../util/constants';
 import { User } from '../../model/User';
 
-export default async (req: Request, res: Response) => {
+export default async (req: Request, res: Response): Promise<void> => {
   const user: string = req.params.user;
   if (!user) {
     res.status(400).send(MESSAGES.USER_ID_NOT_PROVIDED);

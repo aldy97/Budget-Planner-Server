@@ -3,7 +3,7 @@ import { MESSAGES } from '../../util/constants';
 import { Record } from '../../model/Record';
 import moment from 'moment';
 
-const updateRecord = async (req: Request, res: Response) => {
+const updateRecord = async (req: Request, res: Response): Promise<void> => {
   const { _id, updatedFields } = req.body;
 
   if (!_id) {

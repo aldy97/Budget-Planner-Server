@@ -3,7 +3,7 @@ import { MESSAGES } from '../../util/constants';
 import { Record } from '../../model/Record';
 import { User } from '../../model/User';
 
-export default async (req: Request, res: Response) => {
+export default async (req: Request, res: Response): Promise<void> => {
   const recordID = req.body.recordID;
 
   if (!recordID) {

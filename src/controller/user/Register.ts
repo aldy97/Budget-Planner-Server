@@ -3,7 +3,7 @@ import { IUser, User } from '../../model/User';
 import { MESSAGES } from '../../util/constants';
 import validator from 'validator';
 
-export default async (request: Request, response: Response) => {
+export default async (request: Request, response: Response): Promise<void> => {
   const { name, password, email }: IUser = request.body;
   const confirmPassword: string = request.body.confirmPassword;
 

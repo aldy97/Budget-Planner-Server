@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { MESSAGES } from '../../util/constants';
 import { UserDocument, User } from '../../model/User';
 
-export default async (request: Request, response: Response) => {
+export default async (request: Request, response: Response): Promise<void> => {
   const { email, password } = request.body;
 
   if (!email) {
