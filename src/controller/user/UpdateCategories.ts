@@ -5,8 +5,8 @@ import moment from 'moment';
 
 interface UpdateCategoriesRequest {
   _id: string;
-  expenseList: string;
-  incomeList: string;
+  expenseList: string[];
+  incomeList: string[];
 }
 
 export default async (req: Request, res: Response): Promise<void> => {
@@ -39,8 +39,8 @@ export default async (req: Request, res: Response): Promise<void> => {
       { _id },
       {
         $set: {
-          expenseList: JSON.parse(expenseList),
-          incomeList: JSON.parse(incomeList),
+          expenseList: expenseList,
+          incomeList: incomeList,
         },
         updatedOn: moment().format('LLL'),
       },
