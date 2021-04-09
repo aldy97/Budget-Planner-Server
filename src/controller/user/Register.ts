@@ -63,6 +63,7 @@ export default async (request: Request, response: Response): Promise<void> => {
     const newUser = await new User(userInfo).save();
     response.status(201).send({ user: newUser });
   } catch (err) {
+    response.status(500).send(MESSAGES.UNEXPECTED_ERROR);
     console.log(err);
   }
 };

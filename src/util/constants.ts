@@ -35,6 +35,7 @@ export const MESSAGES = {
   USER_ID_NOT_PROVIDED: 'Please provide user id.',
   WRONG_CREDENTIALS: 'Email or password is wrong.',
   NO_RECODS_FOUND: 'No matching records.',
+  EMPTY_LIST: 'Lists can not be empty',
 };
 
 export const PRODUCTION_DB = `mongodb+srv://fengxiong:${process.env.DB_PASSWORD}@cluster0.wcmco.mongodb.net/test?retryWrites=true&w=majority`;

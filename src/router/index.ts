@@ -1,6 +1,7 @@
 import express from 'express';
 import login from './user/Login';
 import register from './user/Register';
+import updateCategories from './user/UpdateCategories';
 import updateUserInfo from './user/UpdateUserInfo';
 import createRecord from './record/CreateRecord';
 import getRecords from './record/GetRecords';
@@ -11,6 +12,7 @@ const router = express.Router();
 
 router.use('/api', register);
 router.use('/api', login);
+router.use('/api', updateCategories);
 router.use('/api', updateUserInfo);
 router.use('/api', createRecord);
 router.use('/api', getRecords);
