@@ -47,9 +47,10 @@ export default async (request: Request, response: Response): Promise<void> => {
     userExists = await User.exists({ email });
     if (userExists) {
       response.status(202).send({ message: MESSAGES.USER_ALREADY_EXIST });
+      return;
     }
-    return;
   } catch (err) {
+    response.status(500).send(MESSAGES.UNEXPECTED_ERROR);
     console.log(err);
   }
 
