@@ -14,6 +14,7 @@ export interface IUser {
   records?: Array<RecordDocument['_id']> | RecordDocument[];
   budget?: number;
   threshold?: number;
+  showNumber?: boolean;
   expenseList?: Array<String> | string[];
   incomeList?: Array<String> | string[];
   createdOn?: string;
@@ -39,6 +40,7 @@ const userSchema = new instance.Schema({
   records: [{ type: instance.Schema.Types.ObjectId, ref: 'Record' }],
   budget: { type: Number, default: 0 },
   threshold: { type: Number, default: 0 },
+  showNumber: { type: Boolean, default: true },
   expenseList: [{ type: String }],
   incomeList: [{ type: String }],
   createdOn: { type: Date, default: moment().format('LLL') },

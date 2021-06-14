@@ -5,6 +5,7 @@ import moment from 'moment';
 
 export default async (req: Request, res: Response): Promise<void> => {
   const { _id, updatedFields } = req.body;
+
   if (!_id) {
     res.status(400).send({ message: MESSAGES.USER_ID_NOT_PROVIDED });
     return;
