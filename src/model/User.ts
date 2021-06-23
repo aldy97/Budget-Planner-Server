@@ -15,6 +15,7 @@ export interface IUser {
   budget?: number;
   threshold?: number;
   showNumber?: boolean;
+  hideSideMenu?: boolean;
   expenseList?: Array<String> | string[];
   incomeList?: Array<String> | string[];
   createdOn?: string;
@@ -41,6 +42,7 @@ const userSchema = new instance.Schema({
   budget: { type: Number, default: 0 },
   threshold: { type: Number, default: 0 },
   showNumber: { type: Boolean, default: true },
+  hideSideMenu: { type: Boolean, default: false },
   expenseList: [{ type: String }],
   incomeList: [{ type: String }],
   createdOn: { type: Date, default: moment().format('LLL') },
